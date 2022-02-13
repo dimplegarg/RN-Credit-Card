@@ -9,43 +9,16 @@ import {
 } from 'react-native';
 import {ListItem, Avatar, Switch, Slider} from 'react-native-elements';
 import AppHeader from '../components/header';
-
-const listData = [
-  {
-    id: 1,
-    icon: require('../assets/icons/insight.png'),
-    title: 'Top-up account',
-    subTitle: 'Deposit money to your account to use with card',
-  },
-  {
-    id: 2,
-    icon: require('../assets/icons/Transfer.png'),
-    title: 'Weekly spending limit',
-    subTitle: 'You haven’t set any spending limit on card',
-    rightIcon: 'toggle',
-    checked: false,
-  },
-  {
-    id: 3,
-    icon: require('../assets/icons/freezeCard.png'),
-    title: 'Freeze card',
-    subTitle: 'Your debit card is currently active',
-    rightIcon: 'toggle',
-    checked: false,
-  },
-  {
-    id: 4,
-    icon: require('../assets/icons/newCard.png'),
-    title: 'Get a new card',
-    subTitle: 'This deactivates your current debit card',
-  },
-  {
-    id: 5,
-    icon: require('../assets/icons/deactivateCard.png'),
-    title: 'Deactivated cards',
-    subTitle: 'Your previously deactivated cards',
-  },
-];
+import {
+  listData,
+  AVAILABLE_BALANCE,
+  S$_LABEL,
+  BALANCE_AMOUNT,
+  HIDE_CARD_NUMBER,
+  DEBIT_CARD_SPENDING_LIMIT,
+  TOGGLE,
+} from '../constants';
+import IMAGE_URL from '../constants/imageURL';
 
 const DebitCardScreen = () => {
   const [list, setList] = useState(listData);
@@ -60,26 +33,23 @@ const DebitCardScreen = () => {
     <View style={{flex: 1, position: 'relative'}}>
       <AppHeader title="Debit Card" />
       <View style={Style.balanceContainer}>
-        <Text style={Style.title}>Available balance</Text>
+        <Text style={Style.title}>{AVAILABLE_BALANCE}</Text>
         <View style={Style.subTitleContainer}>
           <View style={Style.balanceBadge}>
-            <Text style={Style.badgeText}>S$</Text>
+            <Text style={Style.badgeText}>{S$_LABEL}</Text>
           </View>
-          <Text style={Style.balance}>3,000</Text>
+          <Text style={Style.balance}>{BALANCE_AMOUNT}</Text>
         </View>
       </View>
       <ScrollView
         style={Style.scrollView}
         contentContainerStyle={Style.scrollContentContainer}>
         <TouchableOpacity activeOpacity={0.7} style={Style.hideContainer}>
-          <Image source={require('../assets/icons/closeEye.png')} />
-          <Text style={Style.hideText}>Hide card number</Text>
+          <Image source={IMAGE_URL.eyeIcon} />
+          <Text style={Style.hideText}>{HIDE_CARD_NUMBER}</Text>
         </TouchableOpacity>
         <View style={Style.cardContainer}>
-          <Image
-            source={require('../assets/icons/logo.png')}
-            style={Style.logo}
-          />
+          <Image source={IMAGE_URL.logo} style={Style.logo} />
           <Text style={Style.userName}>Mark Henry</Text>
           <Text style={Style.cardNumber}>5677 5678 7889 9987</Text>
           <View style={Style.cardDetail}>
@@ -88,14 +58,13 @@ const DebitCardScreen = () => {
             </Text>
             <Text style={Style.cardDetailText}>CVV: 456</Text>
           </View>
-          <Image
-            source={require('../assets/icons/visaLogo.png')}
-            style={Style.logo}
-          />
+          <Image source={IMAGE_URL.visaIcon} style={Style.logo} />
         </View>
         <View style={Style.slideContainer}>
           <View style={Style.limitTitle}>
-            <Text style={Style.limitTitleText}>Debit card spending limit</Text>
+            <Text style={Style.limitTitleText}>
+              {DEBIT_CARD_SPENDING_LIMIT}
+            </Text>
             <Text style={Style.limitValue}>
               <Text style={Style.activeValue}>$345</Text> | $5,000
             </Text>
@@ -125,7 +94,7 @@ const DebitCardScreen = () => {
                     {i.subTitle}
                   </ListItem.Subtitle>
                 </ListItem.Content>
-                {i.rightIcon && i.rightIcon === 'toggle' ? (
+                {i.rightIcon && i.rightIcon === TOGGLE ? (
                   <Switch
                     value={i.checked}
                     onValueChange={() => handleChange(idx)}
